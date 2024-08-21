@@ -1,0 +1,276 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}Product Detail - Ashion {% endblock %}
+
+{% block body %}
+
+<!-- Add these lines in the <head> section of your HTML file -->
+
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="/"><i class="fa fa-home"></i> Home</a>
+                        <span>{{productdata.Pro_name}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+     <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__slider__content">
+
+                                <img data-hash="product-1" class="product__big__img" src="/media/{{productdata.image}}" alt="">
+
+                        </div>
+                    </div>
+                </div>
+                {% if messages %}
+                 {% for msg in messages %}
+                  <script>
+                    alert("{{msg}}")
+                  </script>
+                  {% endfor %}
+                {% endif %}
+                <div class="col-lg-6">
+                    <div class="product__details__text">
+                        <h3>{{productdata.Product_name  }}</h3>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <span>( 138 reviews )</span>
+                        </div>
+                        <div class="product__details__price">&#8377; {{productdata.Rent}} / Per day</div>
+                        <p id="productDescription">{{ productdata.Product_description }}</p>
+                        {% if request.session.user_id %}
+                        <div class="product__details__button">
+                            <button id="showBookingFormBtn" class="cart-btn"><span class="icon_bag_alt"></span> Rent Outfit</button>
+                        </div>
+                        {% endif %}
+
+                        <div id="bookingFormContainer" style="display: none;">
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-lg-12 ">
+                                        <div class="booking__form">
+                                            <!-- Your booking form content goes here -->
+                                            <h3>Booking Form</h3>
+                                            <form id="bookingForm" action="/placeorder" method="post">
+                                                {% csrf_token %}
+                                                <div class="product_details_widget" style=" margin-top:-70px">
+                            <ul>
+                                    <br/>
+                                <br/>
+                                <br/>
+                                    <span ><b>Available size:</b></span>
+                                    <div class="size__btn" style="margin-top:10px;">
+                                        <label for="xs-btn" class="active" style="margin-right:10px;">
+                                            <input type="radio" id="xs-btn" >
+                                            S
+                                        </label>
+                                        <label for="s-btn" style="margin-right:10px;">
+                                            <input type="radio" id="s-btn">
+                                            M
+                                        </label>
+                                        <label for="m-btn" style="margin-right:10px;">
+                                            <input type="radio" id="m-btn">
+                                            L
+                                        </label>
+                                        <label for="l-btn" style="margin-right:10px;">
+                                            <input type="radio" id="l-btn">
+                                            XL
+                                        </label>
+                                        <label for="l-btn" style="margin-right:10px;">
+                                            <input type="radio" id="XXl-btn">
+                                            XXL
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                                                <label for="fromDate">From Date:</label><br>
+                                                <input type="hidden" name="pid" value="{{productdata.id}}">
+                                                <input type="hidden" name="Price" value="{{productdata.Rent}}">
+                                                <input type="date" id="fromDate" name="fromDate" style="width:80%; height:40px; padding:5px;" required>
+                                                <br>
+                                                <label for="toDate" style="margin-top:10px;">To Date:</label><br>
+                                                <input type="date" id="toDate" name="toDate" style="width:80%; height:40px; padding:5px;" required>
+                                                <br>
+                                                <label for="toDate" style="margin-top:10px;">Address</label><br>
+                                                <input type="text"  name="address" style="width:80%; height:40px; padding:5px;" required>
+                                                <br>
+                                                <label for="paymentMode" style="margin-top:10px;">Payment Mode:</label><br>
+                                                <select id="paymentMode" name="paymentMode" style="width:80%; height:40px; padding:5px; margin-bottom:10px;" required>
+                                                    <option value="offline">Offline</option>
+                                                    <option value="online">Online</option>
+                                                </select>
+                                                <h1 style="font-size:18px;" >20% Deposit Is Kept On The Product,
+                                                    Deposit Will be Refundable </h1>
+                                                <div id="cardDetailsSection" style="display: none;">
+                                                    <label for="cardNumber">Name:</label>
+                                                    <input type="text" id="Name" name="cardName" placeholder="Enter Your Name "><br>
+                                                    <label for="cardNumber">Card Number:</label>
+                                                    <input type="text" oninput="limitInputLength(this,16);" id="cardNumber" name="cardNumber" placeholder="Enter card number"><br>
+                                                    <label for="cvv">CVV:</label>
+                                                    <input type="text" id="cvv" name="cvv" placeholder="Enter CVV"><br>
+                                                    <label for="expiryDate">Expiry Date:</label>
+                                                    <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY">
+                                                </div>
+
+                                                <button type="button" id="calculatePriceBtn" style="margin-top: 20px;
+                                                  display: inline-block;
+	font-size: 14px;
+	color: #ffffff;
+	background: #ca1515;
+	font-weight: 600;
+	text-transform: uppercase;
+	padding: 14px 30px 15px;
+	border-radius: 50px;
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px; border:none;">Calculate Price</button>
+                                                <div id="totalAmountDisplay" style="margin-top: 10px;"></div>
+
+                                                <input type="hidden" name="totalAmount" id="totalAmount">
+                                                <input type="hidden" name="prodid" id="prodid" value="{{productdata.id}}">
+                                               <button  type="submit"  class="buttoncss" style="margin-top: 10px;  id="confirmBookingBtn">Confirm Booking</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+
+{% endblock %}
+
+{% block js %}
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        // Show/hide card details based on payment option
+        $('#paymentMode').on('change', function () {
+            var selectedPayment = $(this).val();
+            if (selectedPayment === 'online') {
+                $('#cardDetailsSection').show();
+            } else {
+                $('#cardDetailsSection').hide();
+            }
+        });
+
+        // Validate booking dates
+        $('#fromDate, #toDate').on('change', function () {
+            var fromDate = new Date($('#fromDate').val());
+            var toDate = new Date($('#toDate').val());
+
+            if (fromDate >= toDate) {
+                alert('From date should be before to date.');
+                $(this).val('');
+            }
+
+            // Check if booking from date is from tomorrow onwards
+            var tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1); // Get tomorrow's date
+            tomorrow.setHours(0, 0, 0, 0); // Set time to midnight
+
+            if (fromDate < tomorrow) {
+                alert('Booking from date should be from tomorrow onwards.');
+                $(this).val('');
+            }
+
+            var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+            var difference = Math.abs(toDate - fromDate);
+            var days = Math.ceil(difference / oneDay);
+
+            if (days < 1) {
+                alert('Booking should be for at least one day.');
+                $(this).val('');
+            }
+        });
+
+        // Calculate total amount and display
+        $('#calculatePriceBtn').on('click', function () {
+            var rentPerDay = parseInt('{{productdata.Rent}}');
+            var fromDate = new Date($('#fromDate').val());
+            var toDate = new Date($('#toDate').val());
+            var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+            var difference = Math.abs(toDate - fromDate);
+            var days = Math.ceil(difference / oneDay);
+            var totalAmount = days * rentPerDay;
+
+            $('#totalAmountDisplay').text('Total Amount: ₹' + totalAmount);
+            $('#totalAmount').val(totalAmount);
+        });
+
+        // Show the booking form when the button is clicked
+        $('#showBookingFormBtn').on('click', function () {
+            $('#bookingFormContainer').show();
+        });
+
+        // Submit the form without card validation
+        $('#submitBookingBtn').on('click', function () {
+            $('#bookingForm').submit();
+        });
+
+        // Hide the booking form when the form is submitted
+        $('#bookingForm').on('submit', function () {
+            $('#bookingFormContainer').hide();
+        });
+    });
+</script>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the element containing the product description
+        var productDescriptionElement = document.getElementById('productDescription');
+
+        // Get the raw description text
+        var descriptionText = productDescriptionElement.textContent;
+
+        // Split the text at each dash and create an array
+        var descriptionArray = descriptionText.split('-');
+
+        // Filter out any empty strings or spaces
+        descriptionArray = descriptionArray.filter(function (item) {
+            return item.trim() !== '';
+        });
+
+        // Create a new HTML structure with line breaks
+        var newHtmlContent = '<ul>';
+        descriptionArray.forEach(function (line) {
+            newHtmlContent += '<li>' + line.trim() + '</li>';
+        });
+        newHtmlContent += '</ul>';
+
+        // Set the new HTML content
+        productDescriptionElement.innerHTML = newHtmlContent;
+    });
+</script>
+
+{% endblock %}

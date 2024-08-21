@@ -1,0 +1,156 @@
+{% extends 'basic.html'  %}
+<title>{% block title  %}Home page{% endblock%}</title>
+
+{% block js %}{% endblock%}
+
+<script>
+    function validateForm() {
+        var email = document.getElementById('email').value;
+        var phone = document.getElementById('phone').value;
+
+        // Regular expression for email validation
+        var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        // Regular expression for phone number validation
+        var phoneRegex = /^\d{10}$/;
+
+        if (!emailRegex.test(email)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+
+        if (!phoneRegex.test(phone)) {
+            alert("Please enter a valid phone number (10 digits).");
+            return false;
+
+        return true;
+    }
+</script>
+
+{% block body %}
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="/"><i class="fa fa-home"></i> Home</a>
+                        <span>Contact</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Contact Section Begin -->
+    <section class="contact spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="contact__content">
+                        <div class="contact__address">
+                            <h5>Contact info</h5>
+                            <ul>
+                                <li>
+                                    <h6> Address</h6>
+                                    <p>160 Pennsylvania Ave , Ahemdabad, Gujrat</p>
+                                </li>
+                                <li>
+                                    <h6><i class="fa fa-phone"></i> Phone</h6>
+                                    <p><span>125-711-811</span><span>125-668-886</span></p>
+                                </li>
+                                <li>
+                                    <h6><i class="fa fa-headphones"></i> Support</h6>
+                                    <p>Support.photography@gmail.com</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="contact__form">
+                            <h5>SEND MESSAGE</h5>
+                            {% if messages %}
+                            {% for msg in messages %}
+                            <script>
+                                 alert("{{msg}}")
+                            </script>
+                            {% endfor %}
+                            {% endif %}
+                            <form action="insert_contact" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">{% csrf_token %}
+                                <input type="text" placeholder="Name" name="Name" required>
+                                <input type="email" placeholder="Email" id="email" name="Email" required>
+                                <input type="tel" placeholder="Phone" id="phone" name="Phone" required>
+                                <textarea placeholder="Message" name="Message"></textarea>
+                                <button type="submit" class="site-btn">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="contact__map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d235013.74842436166!2d72.41492565798286!3d23.020474104203796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1709031313888!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Section End -->
+
+<!-- Instagram Begin -->
+<!--div class="instagram">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-1.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-2.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-3.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-4.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-5.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-6.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Instagram End -->
+
+<!-- Footer Section Begin -->
+{% endblock%}

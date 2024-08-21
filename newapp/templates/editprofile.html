@@ -1,0 +1,159 @@
+{% extends 'basic.html'  %}
+<title>{% block title  %}Home page{% endblock%}</title>
+
+{% block js %}{% endblock%}
+
+
+{% block body %}
+
+<script>
+    function validateForm() {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        var phone = document.getElementById('phone').value;
+
+        // Regular expression for email validation
+        var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        // Regular expression for phone number validation
+        var phoneRegex = /^\d{10}$/;
+
+        if (!emailRegex.test(email)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+
+        if (!phoneRegex.test(phone)) {
+            alert("Please enter a valid phone number (10 digits).");
+            return false;
+        }
+
+        // Password validation
+        if (password.length !== 8) {
+            alert("Password must be exactly 8 characters long.");
+            return false;
+        }
+
+        // Checking if the first letter of the password is capitalized
+        if (password.charAt(0) !== password.charAt(0).toUpperCase()) {
+            alert("Password must start with a capital letter.");
+            return false;
+        }
+
+        // Checking if the password contains at least one numeric character
+        var numericRegex = /\d/;
+        if (!numericRegex.test(password)) {
+            alert("Password must contain at least one numeric character.");
+            return false;
+        }
+
+        // Checking if the password contains at least one special character
+        var specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        if (!specialCharRegex.test(password)) {
+            alert("Password must contain at least one special character.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="/"><i class="fa fa-home"></i> Home</a>
+                        <span>Edit Profile</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Contact Section Begin -->
+    <section class="contact spad">
+        <div class="container" style="margin-left: 275px;
+	margin-right: 275px;">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="contact__content">
+                        <div class="contact__form">
+                            <h5 style="margin-left:52%">EDIT PROFILE</h5>
+                            <form action="/updateprofile" method="post" enctype="multipart/form-data" style="margin-left:40%" onsubmit="return validateForm()">{% csrf_token %}
+                                <input type="text" value="{{userdata.Name}}"   name="uname" placeholder="Name" required>
+                                <input type="email" value="{{userdata.Email_id}}" id="email"  placeholder="Email" name="uemail" required>
+                                <input type="tel" value="{{userdata.Phone_no}}" id="phone"  name="uphone"  placeholder="Phone" required>
+                                <input type="password" value="{{userdata.Password}}" id="password"  name="upassword"  placeholder="Password" required>
+                                <textarea name="uaddress">{{userdata.Address}}</textarea>
+                                <button type="submit" class="site-btn" style="margin-left:32%">Edit Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Section End -->
+
+<!-- Instagram Begin -->
+<!--div class="instagram">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-1.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-2.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-3.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-4.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-5.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
+                <div class="instagram__item set-bg" data-setbg="static/img/instagram/insta-6.jpg">
+                    <div class="instagram__text">
+                        <i class="fa fa-instagram"></i>
+                        <a href="#">@ ashion_shop</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Instagram End -->
+
+{% endblock%}
+
